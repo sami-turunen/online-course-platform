@@ -202,6 +202,38 @@ app.post("/api/topics/:topicId/lessons", authenticate, async (req, res) => {
   }
 });
 
+app.get("/api/topics/:topicId/lessons", async (req, res) => {
+  try {
+    const { topicId } = req.params;
+    const topic = await Topic.findById(topicId);
+    if (!topic) return res.status(404).json({ message: "Topic not found" });
+    res.status(200).json({ topic });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch lessons", error });
+  }
+});
+
+app.post(
+  "/api/topics/:topicId/lessons/:lessonId",
+  authenticate,
+  async (req, res) => {
+    try {
+      const { topicId, lessonId } = req.params;
+      const topic = await Topic.findById(topicId);
+      if (!topic) return res.status(404).json({ message: "Topic not found" });
+      const lesson = topic.lessons.id(lessonId);
+      if (!lesson) return res.status(404).json({ message: "Lesson not found" });
+      const { title, content } = req.body;
+      lesson.title = title;
+      lesson.content = content;
+      await topic.save();
+      res.status(200).json({ topic });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update lesson", error });
+    }
+  },
+);
+
 app.get("/api/courses/:courseId/topics", async (req, res) => {
   try {
     const { courseId } = req.params;
@@ -218,6 +250,19 @@ app.post("/api/courses/reset", async (req, res) => {
     res.status(200).json({ message: "Courses reset" });
   } catch (error) {
     res.status(500).json({ message: "Failed to reset courses", error });
+  }
+});
+
+app.post("/api/lessons", authenticate, async (req, res) => {
+  try {
+    const { title, content, topicId } = req.body;
+    const topic = await Topic.findById(topicId);
+    if (!topic) return res.status(404).json({ message: "Topic not found" });
+    topic.lessons.push({ title, content });
+    await topic.save();
+    res.status(201).json({ topic });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to create lesson", error });
   }
 });
 

@@ -3,10 +3,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login({ setUser }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [username, setUsername] = useState(""); // Username, empty string at first
+  const [password, setPassword] = useState(""); // Password, empty string at first
+  const navigate = useNavigate(); // Navigation
 
+  // Handle form submission (login)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -32,6 +33,7 @@ export default function Login({ setUser }) {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <label>Username: </label>
+        {/* Input field for username */}
         <input
           type="text"
           value={username}
@@ -39,12 +41,14 @@ export default function Login({ setUser }) {
           required
         />
         <label>Password: </label>
+        {/* Input field for password */}
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        {/* Login button */}
         <button type="submit">Login</button>
       </form>
     </>

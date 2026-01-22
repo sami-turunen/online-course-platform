@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./index.css";
 import SignUp from "./components/SignUp";
@@ -9,7 +9,8 @@ import CoursePage from "./components/CoursePage";
 import TopicPage from "./components/TopicPage";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); // state to store user data
+  // Fetch user from backend
   const fetchUser = async () => {
     try {
       const response = await fetch("http://localhost:3000/api/me", {
@@ -23,21 +24,33 @@ function App() {
     }
   };
   return (
+    // Routes
     <Routes>
+      {/* SignUp page */}
       <Route path="/signup" element={<SignUp />} />
+
+      {/* Home page */}
       <Route
         path="/"
         element={<Home user={user} fetchUser={fetchUser} setUser={setUser} />}
       />
+
+      {/* Login page */}
       <Route path="/login" element={<Login setUser={setUser} />} />
+
+      {/* Courses page */}
       <Route
         path="/courses"
         element={<Courses user={user} fetchUser={fetchUser} />}
       />
+
+      {/* Specific course page */}
       <Route
         path="/courses/:slug"
         element={<CoursePage user={user} fetchUser={fetchUser} />}
       />
+
+      {/* Specific topic page */}
       <Route
         path="/topics/:topicId"
         element={<TopicPage user={user} fetchUser={fetchUser} />}

@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import "../styles/SignUp.css";
 
 export default function SignUp() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [username, setUsername] = useState(""); // Username, empty string at first
+  const [email, setEmail] = useState(""); // Email, empty string at first
+  const [password, setPassword] = useState(""); // Password, empty string at first
+  const navigate = useNavigate(); // Navigation
 
+  // Handle form submission (registration)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -29,8 +30,10 @@ export default function SignUp() {
   return (
     <>
       <h1>Sign Up</h1>
+      {/* Registration form */}
       <form onSubmit={handleSubmit}>
         <label>Username: </label>
+        {/* Username input field */}
         <input
           type="text"
           value={username}
@@ -39,6 +42,7 @@ export default function SignUp() {
         />
         <br />
         <label>Email: </label>
+        {/* Email input field */}
         <input
           type="email"
           value={email}
@@ -47,6 +51,7 @@ export default function SignUp() {
         />
         <br />
         <label>Password: </label>
+        {/* Password input field */}
         <input
           type="password"
           value={password}
@@ -54,6 +59,7 @@ export default function SignUp() {
           required
         />
         <br />
+        {/* Submit button */}
         <button type="submit">Register</button>
       </form>
     </>
